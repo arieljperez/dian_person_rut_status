@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "search_colombian_person_subject"
+version = "0.1.0"
+description = ""
+authors = ["arieljperez <ariel.perez.ti@gmail.com>"]
+readme = "README.md"
+packages = [{include = "search_colombian_person_subject"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+requests = "^2.31.0"
+beautifulsoup4 = "^4.12.2"
+
+
+[tool.poetry.group.dev.dependencies]
+autopep8 = "^2.0.4"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
