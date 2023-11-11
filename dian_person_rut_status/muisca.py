@@ -6,9 +6,9 @@ from requests.models import Request
 
 from bs4 import BeautifulSoup
 
-from custom.exceptions import TokenException
-from custom.types import RutStatusDict
-from custom import utils
+from .custom.exceptions import TokenException
+from .custom.types import RutStatusDict
+from .custom import utils
 
 
   
