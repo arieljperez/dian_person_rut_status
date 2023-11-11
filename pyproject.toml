@@ -1,10 +1,14 @@
 [tool.poetry]
-name = "search_colombian_person_subject"
+name = "search_person_rut_status"
 version = "0.1.0"
-description = ""
+description = "A little implementation to search the rut status from a person on Dian's public website muisca.dian.gov.co"
 authors = ["arieljperez <ariel.perez.ti@gmail.com>"]
+license = "MIT"
 readme = "README.md"
-packages = [{include = "search_colombian_person_subject"}]
+homepage = "https://github.com/arieljperez/search_person_rut_status.git"
+repository = "https://github.com/arieljperez/search_person_rut_status.git"
+packages = [{include = "core"}]
+keywords = ["rut", "dian", "nit"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
