@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "search_colombian_person_subject"
+name = "dian_person_rut_status"
 version = "0.1.0"
 description = ""
 authors = ["arieljperez <ariel.perez.ti@gmail.com>"]
