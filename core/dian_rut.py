@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 from bs4.element import Tag
 
 from custom.exceptions import TokenException
-from custom.types import PersonDataDict
+from custom.types import RutStatusDict
 
 FORM_CLASS_INFO = '.tipoFilaNormalVerde'
 
@@ -62,7 +62,7 @@ def get_person_name_from_soup(soup:BeautifulSoup)->Union[str, None]:
     return name if name else concat_full_name_by_name_strings([find_value_in_soup(soup=soup, value=value) for value in NATURAL_PERSON_VALUES])
 
     
-def get_person_data_from_soup(soup:BeautifulSoup)->Union[PersonDataDict, None]:
+def get_person_rut_status_from_soup(soup:BeautifulSoup)->Union[RutStatusDict, None]:
     
     person_data = {PERSON_VALUES_KEYS[0]: find_value_in_soup(soup=soup, value='numNit'),
                      PERSON_VALUES_KEYS[1]: find_value_in_soup(soup=soup, value='dv'),
@@ -87,7 +87,26 @@ PAYLOAD_DATA = {as_form_field('modoPresentacionSeleccionBO'): 'pantalla',
 
 
   
-def get_person_info(token:str, nit:str, attempts:int=DEFAULT_ATTEMPTS, timeout:int=DEFAULT_TIMEOUT)->Union[PersonDataDict, None]:
+def get_person_rut_status(token:str, nit:str, attempts:int=DEFAULT_ATTEMPTS, timeout:int=DEFAULT_TIMEOUT)->Union[RutStatusDict, None]:
+    
+    """This function will returns a Person Rut Status information stored inside a Dict
+    
+    Args:
+        token: a string to make a successfull request
+        
+        nit: a string that represents the Colombia Unique Taxpayer Number is number assigned to persons who must pay taxes.
+        
+        attempts: an integer which represents the number of seconds to retry the function (5 by default)
+        
+        timeout: an integer which representes the number of seconds to sleep in case of a request timeout (10 by default)
+
+    Raises:
+        TokenException: When the request's token is missing or is a blank string
+
+    Returns:
+        RutStatusDict: A typed dictionary with the main key and values from an actual legal or natural person
+        None: if there is an error on the code in execution
+    """
     
     if not token:
         raise TokenException('The Token is Missing!')
@@ -103,9 +122,9 @@ def get_person_info(token:str, nit:str, attempts:int=DEFAULT_ATTEMPTS, timeout:i
             response.raise_for_status()
             
     except requests.Timeout:
-        return get_person_info(token=token, nit=nit, attempts=DEFAULT_ATTEMPTS-1)
+        return get_person_rut_status(token=token, nit=nit, attempts=DEFAULT_ATTEMPTS-1)
     except Exception as e:
         print(e)
     else:
         soup = BeautifulSoup(response.text, features='html.parser') if response else None
-        return None if not soup else get_person_data_from_soup(soup=soup)
+        return None if not soup else get_person_rut_status_from_soup(soup=soup)
