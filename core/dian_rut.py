@@ -122,7 +122,7 @@ def get_person_rut_status(token:str, nit:str, attempts:int=DEFAULT_ATTEMPTS, tim
             response.raise_for_status()
             
     except requests.Timeout:
-        return get_person_rut_status(token=token, nit=nit, attempts=DEFAULT_ATTEMPTS-1)
+        return get_person_rut_status(token=token, nit=nit, attempts=attempts-1)
     except Exception as e:
         print(e)
     else:
