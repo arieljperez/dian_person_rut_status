@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "search_person_rut_status"
+name = "dian_person_rut_status"
 version = "0.1.0"
 description = "A little implementation to search the rut status from a person on Dian's public website muisca.dian.gov.co"
 authors = ["arieljperez <ariel.perez.ti@gmail.com>"]
