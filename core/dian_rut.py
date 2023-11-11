@@ -119,7 +119,7 @@ def get_person_rut_status(token:str, nit:str, attempts:int=DEFAULT_ATTEMPTS, tim
         response = requests.post(url=WEB_RUT_MUISCA_URL, data={**PAYLOAD_DATA, as_form_field('numNit'): nit, TOKEN_FIELD: token}, timeout=timeout)
         
         if isinstance(response, Request):
-            response.raise_for_status()
+            response.raise_for_status() #For some exceptions
             
     except requests.Timeout:
         return get_person_rut_status(token=token, nit=nit, attempts=attempts-1)
