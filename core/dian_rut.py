@@ -10,8 +10,6 @@ from bs4.element import Tag
 from custom.exceptions import TokenException
 from custom.types import PersonDataDict
 
-import os
-
 FORM_CLASS_INFO = '.tipoFilaNormalVerde'
 
 TOKEN_FIELD = 'com.sun.faces.VIEW'
@@ -88,31 +86,26 @@ PAYLOAD_DATA = {as_form_field('modoPresentacionSeleccionBO'): 'pantalla',
                 }
 
 
-class DianRut:
+  
+def get_person_info(token:str, nit:str, attempts:int=DEFAULT_ATTEMPTS, timeout:int=DEFAULT_TIMEOUT)->Union[PersonDataDict, None]:
     
-    @staticmethod
-    def get_person_info(token:str, nit:str, attempts:int=DEFAULT_ATTEMPTS, timeout:int=DEFAULT_TIMEOUT)->Union[PersonDataDict, None]:
+    if not token:
+        raise TokenException('The Token is Missing!')
+    
+    if attempts == 0:
+        print('All attempts completed! ')
+        return
+    
+    try:
+        response = requests.post(url=WEB_RUT_MUISCA_URL, data={**PAYLOAD_DATA, as_form_field('numNit'): nit, TOKEN_FIELD: token}, timeout=timeout)
         
-        if not token:
-            raise TokenException('The Token is Missing!')
-        
-        if attempts == 0:
-            print('All attempts completed! ')
-            return
-        
-        try:
-            response = requests.post(url=WEB_RUT_MUISCA_URL, data={**PAYLOAD_DATA, as_form_field('numNit'): nit, TOKEN_FIELD: token}, timeout=timeout)
+        if isinstance(response, Request):
+            response.raise_for_status()
             
-            if isinstance(response, Request):
-                response.raise_for_status()
-                
-        except requests.Timeout:
-            return DianRut.get_person_info(token=token, nit=nit, attempts=DEFAULT_ATTEMPTS-1)
-        except Exception as e:
-            print(e)
-        else:
-            soup = BeautifulSoup(response.text, features='html.parser') if response else None
-            
-            return None if not soup else get_person_data_from_soup(soup=soup)
-        
-#  token = os.environ.get('TOKEN')
+    except requests.Timeout:
+        return get_person_info(token=token, nit=nit, attempts=DEFAULT_ATTEMPTS-1)
+    except Exception as e:
+        print(e)
+    else:
+        soup = BeautifulSoup(response.text, features='html.parser') if response else None
+        return None if not soup else get_person_data_from_soup(soup=soup)
