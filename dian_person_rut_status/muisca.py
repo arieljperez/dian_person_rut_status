@@ -6,21 +6,13 @@ from requests.models import Request
 
 from bs4 import BeautifulSoup
 
-from .custom.exceptions import TokenException
-from .custom.types import RutStatusDict
-from .custom.utils import (
-    DEFAULT_ATTEMPTS, 
-    DEFAULT_TIMEOUT,
-    WEB_RUT_MUISCA_URL,
-    PAYLOAD_DATA,
-    as_form_field,
-    TOKEN_FIELD,
-    get_person_rut_status_from_soup
-)
+from custom.exceptions import TokenException
+from custom.types import RutStatusDict
+from custom import utils
 
 
   
-def get_person_rut_status(token:str, nit:str, attempts:int=DEFAULT_ATTEMPTS, timeout:int=DEFAULT_TIMEOUT)->Union[RutStatusDict, None]:
+def get_person_rut_status(token:str, nit:str, attempts:int=utils.DEFAULT_ATTEMPTS, timeout:int=utils.DEFAULT_TIMEOUT)->Union[RutStatusDict, None]:
     
     """This function will returns a Person Rut Status information stored inside a Dict
     
@@ -49,7 +41,7 @@ def get_person_rut_status(token:str, nit:str, attempts:int=DEFAULT_ATTEMPTS, tim
         return
     
     try:
-        response = requests.post(url=WEB_RUT_MUISCA_URL, data={**PAYLOAD_DATA, as_form_field('numNit'): nit, TOKEN_FIELD: token}, timeout=timeout)
+        response = requests.post(url=utils.WEB_RUT_MUISCA_URL, data={**utils.PAYLOAD_DATA, utils.as_form_field('numNit'): nit, utils.TOKEN_FIELD: token}, timeout=timeout)
         
         if isinstance(response, Request):
             response.raise_for_status()
@@ -60,4 +52,4 @@ def get_person_rut_status(token:str, nit:str, attempts:int=DEFAULT_ATTEMPTS, tim
         print(e)
     else:
         soup = BeautifulSoup(response.text, features='html.parser') if response else None
-        return None if not soup else get_person_rut_status_from_soup(soup=soup)
+        return None if not soup else utils.get_person_rut_status_from_soup(soup=soup)
