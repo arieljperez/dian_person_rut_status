@@ -87,13 +87,13 @@ PAYLOAD_DATA = {as_form_field('modoPresentacionSeleccionBO'): 'pantalla',
 
 
 
-def get_person_info(nit:str, attempts:int=DEFAULT_ATTEMPTS)->Union[Dict, None]:
+def get_person_info(nit:str, attempts:int=DEFAULT_ATTEMPTS, timeout:int=DEFAULT_TIMEOUT)->Union[Dict, None]:
     
     if attempts == 0:
         return None
     
     try:
-        response = requests.post(url=WEB_RUT_MUISCA_URL, data={**PAYLOAD_DATA, as_form_field('numNit'): nit}, timeout=DEFAULT_TIMEOUT)
+        response = requests.post(url=WEB_RUT_MUISCA_URL, data={**PAYLOAD_DATA, as_form_field('numNit'): nit}, timeout=timeout)
     except (Exception, requests.Timeout) as possible_errors:
         return get_person_info(nit=nit, attempts=DEFAULT_ATTEMPTS-1)
     
