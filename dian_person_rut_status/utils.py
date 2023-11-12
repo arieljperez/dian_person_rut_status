@@ -3,7 +3,7 @@ from typing import Union, Dict
 
 from bs4 import BeautifulSoup, Tag
 
-from custom_types import RutStatusDict
+from .custom_types import RutStatusDict
 
 FORM_CLASS_INFO = '.tipoFilaNormalVerde'
 
