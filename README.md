@@ -1,3 +1,3 @@
-# 🔎 Search a Person RUT Status on WEB MUSICA by DIAN 📑🇨🇴
+# 🔎 Get Person's DIAN Rut Status by NIT 📑🇨🇴
 
 MVP
