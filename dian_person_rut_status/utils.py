@@ -15,9 +15,9 @@ VALUE_ATTR = 'value'
 
 NATURAL_PERSON_VALUES = ['primerNombre', 'otrosNombres', 'primerApellido', 'segundoApellido']
 
-PERSON_MAIN_VALUES_KEYS = [ 'dv', 'status', 'name']
+PERSON_MAIN_VALUES_KEYS = [ 'check_digit', 'status', 'name']
 
-PERSON_VALUES_KEYS = ['nit', *PERSON_MAIN_VALUES_KEYS]
+PERSON_VALUES_KEYS = ['tin', *PERSON_MAIN_VALUES_KEYS]
 
 WEB_RUT_MUISCA_URL = 'https://muisca.dian.gov.co/WebRutMuisca/DefConsultaEstadoRUT.faces'
 

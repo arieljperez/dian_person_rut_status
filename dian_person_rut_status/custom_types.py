@@ -1,7 +1,7 @@
 from typing import TypedDict
 
 class RutStatusDict(TypedDict):
-    nit:str
+    tin:str
     name:str
-    dv:str
+    check_digit:str
     status:str

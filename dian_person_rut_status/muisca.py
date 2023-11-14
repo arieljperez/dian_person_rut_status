@@ -12,14 +12,14 @@ from . import utils
 
 
   
-def get_person_rut_status(token:str, nit:str, attempts:int=utils.DEFAULT_ATTEMPTS, timeout:int=utils.DEFAULT_TIMEOUT)->Union[RutStatusDict, None]:
+def get_person_rut_status(token:str, tin:str, attempts:int=utils.DEFAULT_ATTEMPTS, timeout:int=utils.DEFAULT_TIMEOUT)->Union[RutStatusDict, None]:
     
     """This function will returns a Person Rut Status information stored inside a Dict
     
     Args:
         token: a string to make a successfull request
         
-        nit: a string that represents the Colombia Unique Taxpayer Number is number assigned to persons who must pay taxes.
+        tin: a string that represents a Person's Tax Identification Number in Colombia.
         
         attempts: an integer which represents the number of seconds to retry the function (5 by default)
         
@@ -41,13 +41,13 @@ def get_person_rut_status(token:str, nit:str, attempts:int=utils.DEFAULT_ATTEMPT
         return
     
     try:
-        response = requests.post(url=utils.WEB_RUT_MUISCA_URL, data={**utils.PAYLOAD_DATA, utils.as_form_field('numNit'): nit, utils.TOKEN_FIELD: token}, timeout=timeout)
+        response = requests.post(url=utils.WEB_RUT_MUISCA_URL, data={**utils.PAYLOAD_DATA, utils.as_form_field('numNit'): tin, utils.TOKEN_FIELD: token}, timeout=timeout)
         
         if isinstance(response, Request):
             response.raise_for_status()
             
     except requests.Timeout:
-        return get_person_rut_status(token=token, nit=nit, attempts=attempts-1)
+        return get_person_rut_status(token=token, tin=tin, attempts=attempts-1)
     except Exception as e:
         print(e)
     else:
