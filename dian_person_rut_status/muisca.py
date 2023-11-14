@@ -1,24 +1,18 @@
 from typing import Union
 
 import requests
-
 from requests.models import Request
 
-from bs4 import BeautifulSoup
-
-from .exceptions import TokenException
 from .custom_types import RutStatusDict
 from . import utils
 
 
   
-def get_person_rut_status(token:str, tin:str, attempts:int=utils.DEFAULT_ATTEMPTS, timeout:int=utils.DEFAULT_TIMEOUT)->Union[RutStatusDict, None]:
+def get_person_rut_status(tin:str, token:str='', attempts:int=utils.DEFAULT_ATTEMPTS, timeout:int=utils.DEFAULT_TIMEOUT)->Union[RutStatusDict, None]:
     
     """This function will returns a Person Rut Status information stored inside a Dict
     
     Args:
-        token: a string to make a successfull request
-        
         tin: a string that represents a Person's Tax Identification Number in Colombia.
         
         attempts: an integer which represents the number of seconds to retry the function (5 by default)
@@ -33,8 +27,8 @@ def get_person_rut_status(token:str, tin:str, attempts:int=utils.DEFAULT_ATTEMPT
         None: A person with the requested TIN is not found or there is an error on the code in execution
     """
     
-    if not token:
-        raise TokenException('The Token is Missing!')
+    if not token or isinstance(token, str) is False:
+        token = utils.get_form_token()
     
     if attempts == 0:
         print('All attempts completed! ')
@@ -47,9 +41,9 @@ def get_person_rut_status(token:str, tin:str, attempts:int=utils.DEFAULT_ATTEMPT
             response.raise_for_status()
             
     except requests.Timeout:
-        return get_person_rut_status(token=token, tin=tin, attempts=attempts-1)
+        return get_person_rut_status(tin=tin, token=token, attempts=attempts-1)
     except Exception as e:
         print(e)
     else:
-        soup = BeautifulSoup(response.text, features='html.parser') if response else None
+        soup = utils.get_soup(response=response)
         return None if not soup else utils.get_person_rut_status_from_soup(soup=soup)

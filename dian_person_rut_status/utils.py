@@ -1,9 +1,12 @@
 
-from typing import Union, Dict
+from typing import Union, Dict, TypeVar
 
 from bs4 import BeautifulSoup, Tag
+from requests import post
+from requests.models import Response
 
 from .custom_types import RutStatusDict
+from .exceptions import TokenException
 
 FORM_CLASS_INFO = '.tipoFilaNormalVerde'
 
@@ -25,6 +28,8 @@ DEFAULT_TIMEOUT = 10
 
 DEFAULT_ATTEMPTS = 5
 
+FormToken = TypeVar('FormToken', str)
+
 def remove_none_elements_from_dict(d: dict) -> Dict:
     return {key: value for key, value in d.items() if value is not None and value != ''}
 
@@ -35,6 +40,9 @@ def list_contains_elements_of_list(a:list, b:list)->bool:
 
 def as_form_field(field_name:str='')->str:
     return FORM_PREFIX + ':' + field_name if field_name else FORM_PREFIX
+
+def get_soup(response:Response)->Union[BeautifulSoup, None]:
+    return BeautifulSoup(response.text, features='html.parser') if response and isinstance(response, Response) else None
 
 def get_value_from_tag(tag:Tag, value:str)->Union[str, None]:
     return tag.contents[0] if tag.contents else tag.attrs.get(value, None)
@@ -48,6 +56,15 @@ def find_value_in_soup(soup:BeautifulSoup, value:str)->Union[str, None]:
 
 def concat_full_name_by_name_strings(names:list)->Union[str, None]:
     return ' '.join(names) if all(names) else None
+
+
+def get_form_token()->Union[FormToken, None]:
+    try:
+        soup = get_soup(response=post(url=WEB_RUT_MUISCA_URL))
+        form_token_field  = soup.find(attrs={"name": TOKEN_FIELD})
+        return form_token_field.attrs.get(VALUE_ATTR, None)
+    except Exception as e:
+        raise TokenException
 
 
 def get_person_name_from_soup(soup:BeautifulSoup)->Union[str, None]:
