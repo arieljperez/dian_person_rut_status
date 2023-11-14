@@ -26,13 +26,3 @@ person_rut_status = muisca.get_person_rut_status(tin="Colombian Person TIN")
 ```
 
 The __'tin'__ in this context refers to the __Colombia Unique Taxpayer Number__, a unique identifier assigned to individuals obligated to pay taxes. It is important to note that the __'tin'__ should be provided without its __check digit__
-
-
-## Expected Responses
-
-```python
-from dian_person_rut_status import muisca
-
-person_rut_status = muisca.get_person_rut_status(tin="Colombian Person TIN")
-
-```
