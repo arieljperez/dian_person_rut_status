@@ -30,7 +30,7 @@ def get_person_rut_status(token:str, tin:str, attempts:int=utils.DEFAULT_ATTEMPT
 
     Returns:
         RutStatusDict: A typed dictionary with the main key and values from an actual legal or natural person
-        None: if there is an error on the code in execution
+        None: A person with the requested TIN is not found or there is an error on the code in execution
     """
     
     if not token:
