@@ -2,7 +2,8 @@
 
  ![PyPi version](https://badgen.net/pypi/v/dian-person-rut-status/)
 
-This is a module that allows you to get a person's DIAN RUT status by its TIN (NIT in Spanish) through [DIAN's public official website](https://muisca.dian.gov.co/WebRutMuisca/DefConsultaEstadoRUT.faces). It is implemented as a sync function under the [requests library](https://requests.readthedocs.io/en/latest/). Currently, this is an early MVP ready to use. 
+This module allows you to retrieve a person's DIAN RUT status by providing their TIN (NIT in Spanish) through [DIAN's public official website](https://muisca.dian.gov.co/WebRutMuisca/DefConsultaEstadoRUT.faces). It is implemented as a function that operates synchronously within the [requests library](https://requests.readthedocs.io/en/latest/). Currently, it is an early version of the Minimum Viable Product (MVP) and is ready to be used.
+
 
 ## DIAN Public official site
 The public oficial can be [found here](https://muisca.dian.gov.co/WebRutMuisca/DefConsultaEstadoRUT.faces).
