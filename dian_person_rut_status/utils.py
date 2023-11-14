@@ -28,7 +28,7 @@ DEFAULT_TIMEOUT = 10
 
 DEFAULT_ATTEMPTS = 5
 
-FormToken = TypeVar('FormToken', str)
+WebMuiscaFormToken = TypeVar('WebMuiscaFormToken')
 
 def remove_none_elements_from_dict(d: dict) -> Dict:
     return {key: value for key, value in d.items() if value is not None and value != ''}
@@ -58,7 +58,7 @@ def concat_full_name_by_name_strings(names:list)->Union[str, None]:
     return ' '.join(names) if all(names) else None
 
 
-def get_form_token()->Union[FormToken, None]:
+def get_web_muisca_form_token()->Union[WebMuiscaFormToken, None]:
     try:
         soup = get_soup(response=post(url=WEB_RUT_MUISCA_URL))
         form_token_field  = soup.find(attrs={"name": TOKEN_FIELD})

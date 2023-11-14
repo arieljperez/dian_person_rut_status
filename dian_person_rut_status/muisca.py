@@ -28,7 +28,7 @@ def get_person_rut_status(tin:str, token:str='', attempts:int=utils.DEFAULT_ATTE
     """
     
     if not token or isinstance(token, str) is False:
-        token = utils.get_form_token()
+        token = utils.get_web_muisca_form_token()
     
     if attempts == 0:
         print('All attempts completed! ')
